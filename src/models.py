@@ -41,9 +41,8 @@ class Personajes(db.Model):
             "genero":self.genero,
             "creacion":self.creacion,
             "editado":self.editado,
-            "nombre":self.nombre,
+            "name":self.name,
             "mundo_origen":self.mundo_origen,
-            "personajes_id":self.personajes_id
         }
 
         def serialize2(self):
@@ -76,15 +75,13 @@ class Planetas(db.Model):
             "clima":self.clima,
             "diametro":self.diametro,
             "gravedad":self.gravedad,
-            "nombre":self.nombre,
+            "name":self.name,
             "periodo_orbital":self.periodo_orbital,
             "poblacion":self.poblacion,
             "residentes":self.residentes,
-            "creacion":self.creacion,
             "periodo_rotacion":self.periodo_rotacion,
             "superficie_acuatica":self.superficie_acuatica,
             "terreno":self.terreno,
-            "planetas_id":self.planetas_id
         }
     
     def serialize2(self):
