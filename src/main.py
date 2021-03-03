@@ -127,7 +127,7 @@ def delete_favorito(favorite_id):
 @app.route('/register', methods=["POST"])
 def registro():
     if request.method == 'POST':
-        username = request.json.get("user", None)
+        username = request.json.get("username", None)
         email = request.json.get("email", None)
         password = request.json.get("password", None)
 
