@@ -97,10 +97,22 @@ def get_user():
     user_id = get_jwt_identity()
     query = Favoritos.query.filter_by(User_id=user_id)
     results = list(map(lambda favoritos: favoritos.serialize(), query))
+    results2 = []
+    
+    for result in results:
+        if result.get("planet_id") == None:
+            query_personajes = Personajes.query.get(result.get("personajes_id"))
+            result["name"] = query_personajes.serialize().get("name")
+            results2.append(result)
+        else: 
+            query_planetas = Planetas.query.get(result.get("planetas_id"))
+            result["name"] = query_planetas.serialize().get("name")
+            results2.append(result)
 
     response_body = {
-        "message": results
+        "message": results2
     }
+    
     return jsonify(response_body), 200
 
 @app.route('/users/<int:user_id>/favorites', methods=['POST'])
