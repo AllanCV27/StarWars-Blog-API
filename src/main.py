@@ -24,7 +24,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
-CORS(app)
+CORS(app, resources={r"/*":{"origins":"*"}})
 setup_admin(app)
 
 jwt = JWTManager(app)
@@ -97,10 +97,11 @@ def get_user():
     user_id = get_jwt_identity()
     query = Favoritos.query.filter_by(User_id=user_id)
     results = list(map(lambda favoritos: favoritos.serialize(), query))
+    print(results)
     results2 = []
     
     for result in results:
-        if result.get("planet_id") == None:
+        if result.get("planetas_id") == None:
             query_personajes = Personajes.query.get(result.get("personajes_id"))
             result["name"] = query_personajes.serialize().get("name")
             results2.append(result)
@@ -119,6 +120,7 @@ def get_user():
 def add_favorito(user_id):
 
     request_favorito = request.get_json()
+    print(request_favorito, "data")
     favo = Favoritos(User_id = user_id, planetas_id = request_favorito["planetas_id"], personajes_id = request_favorito["personajes_id"])
     db.session.add(favo)
     db.session.commit()
