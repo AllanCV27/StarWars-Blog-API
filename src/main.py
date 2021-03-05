@@ -16,7 +16,7 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 ## Nos permite manejar tokens por authentication (usuarios) 
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt 
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -97,7 +97,6 @@ def get_user():
     user_id = get_jwt_identity()
     query = Favoritos.query.filter_by(User_id=user_id)
     results = list(map(lambda favoritos: favoritos.serialize(), query))
-    print(results)
     results2 = []
     
     for result in results:
@@ -120,7 +119,6 @@ def get_user():
 def add_favorito(user_id):
 
     request_favorito = request.get_json()
-    print(request_favorito, "data")
     favo = Favoritos(User_id = user_id, planetas_id = request_favorito["planetas_id"], personajes_id = request_favorito["personajes_id"])
     db.session.add(favo)
     db.session.commit()
@@ -197,7 +195,18 @@ def login():
 
         return jsonify(data), 200
 
+@app.route('/logout', methods=['DELETE'])
+@jwt_required()
+def logout():
 
+    #jti = get_jwt()["jti"]
+    # now = datetime.now(timezone.utc)
+    # db.session.add(ListaDeTokensBloqueados(jti=jti, created_at=now))
+    # db.session.commit()
+    print("Agregar token a lista de bloqueados en DB")
+
+    return jsonify(message="User logout"), 200
+        
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

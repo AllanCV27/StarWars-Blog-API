@@ -8,6 +8,10 @@ db = SQLAlchemy()
     #password = db.Column(db.String(80), unique=False, nullable=False)
     #is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
+# class ListaDeTokensBloqueados(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     jti = db.Column(db.String(36), nullable=False)
+#     created_at = db.Column(db.DateTime, nullable=False)
 
 class Personajes(db.Model):
     __tablename__ = 'Personajes'
